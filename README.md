@@ -26,7 +26,7 @@ source ~/.bashrc
 # Verify Conda is installed
 conda --version
 
-git clone https://github.com/lerobot/lerobot.git
+git clone https://github.com/adityanagachandra/lerobot.git
 cd lerobot
 
 # Create a new Conda env with Python 3.10
