@@ -8,8 +8,6 @@
 
 ## ⚙️ Installation
 
-### 1. Install Miniforge (Conda for aarch64)
-
 ```bash
 # Go to home directory
 cd ~
