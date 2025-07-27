@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeRobot Fork - Daily Updates</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="media/lerobot-logo-thumbnail.png" alt="LeRobot Logo" class="logo">
+                    <div class="title-section">
+                        <h1>LeRobot Fork Daily Updates</h1>
+                        <p class="subtitle">Real-time development tracking for adityanagachandra/lerobot</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="refreshBtn" class="refresh-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                    <a href="https://github.com/adityanagachandra/lerobot" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                        View Repository
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="lastUpdate">Loading...</h3>
+                        <p>Last Update</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-plus"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="newFilesCount">0</h3>
+                        <p>New Files Today</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="commitsCount">0</h3>
+                        <p>Commits Today</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="activeIssues">0</h3>
+                        <p>Active Issues</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <section class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-file-plus"></i> New Files & Utilities</h2>
+                        <span class="badge" id="newFilesBadge">0</span>
+                    </div>
+                    <div class="card-content">
+                        <div id="newFilesContainer" class="files-container">
+                            <div class="loading-state">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading new files...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-hammer"></i> Currently Working On</h2>
+                        <span class="badge" id="workingOnBadge">0</span>
+                    </div>
+                    <div class="card-content">
+                        <div id="workingOnContainer" class="work-container">
+                            <div class="loading-state">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading current work...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="content-card recent-activity">
+                <div class="card-header">
+                    <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                    <div class="activity-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="commits">Commits</button>
+                        <button class="filter-btn" data-filter="files">Files</button>
+                        <button class="filter-btn" data-filter="issues">Issues</button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div id="recentActivityContainer" class="activity-container">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading recent activity...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 LeRobot Fork Updates. Auto-refreshes daily at midnight UTC.</p>
+            <p>Data sourced from <a href="https://github.com/adityanagachandra/lerobot" target="_blank">GitHub Repository</a></p>
+        </footer>
+    </div>
+
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Error</h3>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
