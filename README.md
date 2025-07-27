@@ -1,101 +1,62 @@
-🚀 LeRobot Setup on Lambda GH200 (CUDA 12.8, ARM64)
-This guide walks through setting up the LeRobot repository on a Lambda Cloud GH200 machine (ARM64, CUDA 12.8).
+## 🖥️ Instance Specs
 
-Component	Spec
-GPU	NVIDIA GH200 (Hopper, SM120)
-CPU	ARM64
-RAM	 ≈ 96 GB
-OS	 Linux (ARM64)
+- **GPU**: Lambda Cloud GH200 (aarch64)
+- **RAM**: ~96 GB
+- **CUDA Toolkit**: 12.8+
 
-📦 Installation
-1  Install Miniforge (ARM64)
-bash
-Copy
-Edit
+---
+
+## ⚙️ Installation
+
+### 1. Install Miniforge (Conda for aarch64)
+
+```bash
+# Go to home directory
 cd ~
-wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
-bash Miniforge3-Linux-aarch64.sh
-source ~/.bashrc   # or ~/.zshrc if you use Zsh
-conda --version    # sanity‑check
-### 2  Clone LeRobot
 
-bash
-Copy
-Edit
+# Download Miniforge installer
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
+
+# Run the installer
+bash Miniforge3-Linux-aarch64.sh
+
+# Apply changes (or use ~/.zshrc if you use zsh)
+source ~/.bashrc
+
+# Verify Conda is installed
+conda --version
+
 git clone https://github.com/lerobot/lerobot.git
 cd lerobot
-### 3  Create & Activate Environment
 
-bash
-Copy
-Edit
+# Create a new Conda env with Python 3.10
 conda create -y -n lerobot python=3.10
+
+# Activate it
 conda activate lerobot
-### 4  Install Core Deps
 
-bash
-Copy
-Edit
+# Install FFmpeg from conda-forge
 conda install -y ffmpeg -c conda-forge
+
+# Install LeRobot in editable mode
 pip install -e .
-### 5  Remove Any Existing Torch
 
-bash
-Copy
-Edit
+# Uninstall any existing Torch builds
 pip uninstall -y torch torchvision torchaudio torchcodec 2>/dev/null || true
-conda remove   -y pytorch torchvision torchaudio pytorch-cuda 2>/dev/null || true
-### 6  Install PyTorch Nightly (CUDA 12.8)
+conda remove -y pytorch torchvision torchaudio pytorch-cuda 2>/dev/null || true
 
-bash
-Copy
-Edit
+# Install nightly Torch built for CUDA 12.8
 pip install --pre --upgrade \
   --extra-index-url https://download.pytorch.org/whl/nightly/cu128 \
   torch torchvision
-✅ Sanity Check
-bash
-Copy
-Edit
-python - <<'PY'
-import torch, os, sys
-print("Torch:", torch.__version__, "CUDA:", torch.version.cuda)
-x = torch.randn(4096, 4096, device='cuda')
-torch.cuda.synchronize()
-print("Max abs:", (x @ x.T).abs().max())
-PY
-You should see the correct Torch nightly version (≥ 2.9.0.dev*) and CUDA: 12.8.
+```
 
-🏁 Training Configuration
-Typical train.py snippet:
+## 🚀 Training
 
-yaml
-Copy
-Edit
-num_workers: 16
-batch_size: 48
-steps: 100_000
-eval_freq: 20_000
-log_freq: 200
-These defaults assume plenty of RAM/VRAM; feel free to tune.
+# train.py configs
+num_workers:  int = 16       # Data loading processes
+batch_size:   int = 48       # Samples per batch
+steps:        int = 100_000  # Total training steps
+eval_freq:    int = 20_000   # Evaluate every N steps
+log_freq:     int = 200      # Log metrics every N steps
 
-🚀 Launch Training
-bash
-Copy
-Edit
-python -m ts.train --config-path=configs/train/<your_config>.yaml
-Replace <your_config>.yaml with the actual config file for your task.
-
-🧠 Pro Tips
-Use watch -n1 nvidia-smi to monitor GPU memory and temps.
-
-Save checkpoints every 10‑20 k steps to guard against interruptions.
-
-WANDB logging at log_freq=200 is a good balance between detail and overhead.
-
-🔗 Resources
-LeRobot repo: https://github.com/lerobot/lerobot
-
-PyTorch nightly wheels: https://download.pytorch.org/whl/nightly/
-
-Lambda Cloud docs: https://lambdalabs.com/service/cloud-gpu
