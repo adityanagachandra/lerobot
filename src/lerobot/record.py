@@ -106,7 +106,7 @@ from lerobot.utils.control_utils import (
     sanity_check_dataset_name,
     sanity_check_dataset_robot_compatibility,
 )
-from debug_utils.inference_logger import InferenceLogger
+from lerobot.debug_utils.inference_logger import InferenceLogger
 from lerobot.utils.robot_utils import busy_wait
 from lerobot.utils.utils import (
     get_safe_torch_device,
