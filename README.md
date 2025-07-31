@@ -47,8 +47,12 @@ conda remove -y pytorch torchvision torchaudio pytorch-cuda 2>/dev/null || true
 pip install --pre --upgrade \
   --extra-index-url https://download.pytorch.org/whl/nightly/cu128 \
   torch torchvision
-```
 
+
+wandb login
+
+huggingface-cli login
+```
 ## 🚀 Training
 
 ### train.py configs
