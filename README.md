@@ -54,8 +54,8 @@ pip install --pre --upgrade \
 ### train.py configs
 | Parameter     | Type & Default  | Description               |
 | ------------- | --------------- | ------------------------- |
-| `num_workers` | `int = 16`      | Data loading processes    |
-| `batch_size`  | `int = 48`      | Samples per batch         |
+| `num_workers` | `int = 12`      | Data loading processes    |
+| `batch_size`  | `int = 24`      | Samples per batch         |
 | `steps`       | `int = 100_000` | Total training steps      |
 | `eval_freq`   | `int = 20_000`  | Evaluate every N steps    |
 | `log_freq`    | `int = 200`     | Log metrics every N steps |
