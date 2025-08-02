@@ -52,6 +52,12 @@ pip install --pre --upgrade \
 wandb login
 
 huggingface-cli login
+
+
+# For smolVLA training : 
+pip install -e ".[smolvla]"
+
+
 ```
 ## 🚀 Training
 
