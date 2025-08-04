@@ -170,46 +170,6 @@ def load_smolvla(
             len(unexpected),
         )
 
-    # Apply dataset statistics fix for normalization
-    try:
-        from pathlib import Path
-        stats_path = Path("dataset_stats.pt")
-        if stats_path.exists():
-            print("🔧 Applying dataset statistics fix to SmolVLA...")
-            dataset_stats = torch.load(stats_path, map_location=device)
-            
-            for key, stats in dataset_stats.items():
-                device_stats = {k: v.to(device) for k, v in stats.items()}
-                
-                if key == "observation.state" and hasattr(model, 'normalize_inputs'):
-                    if hasattr(model.normalize_inputs, 'buffer_observation_state'):
-                        buffer = model.normalize_inputs.buffer_observation_state
-                        if hasattr(buffer, 'mean') and hasattr(buffer, 'std'):
-                            buffer.mean.data = device_stats["mean"]
-                            buffer.std.data = device_stats["std"]
-                            print(f"  ✅ Fixed normalize_inputs for {key}")
-                
-                elif key == "action":
-                    # Fix normalize_targets
-                    if hasattr(model, 'normalize_targets') and hasattr(model.normalize_targets, 'buffer_action'):
-                        buffer = model.normalize_targets.buffer_action
-                        if hasattr(buffer, 'mean') and hasattr(buffer, 'std'):
-                            buffer.mean.data = device_stats["mean"]
-                            buffer.std.data = device_stats["std"]
-                            print(f"  ✅ Fixed normalize_targets for {key}")
-                    
-                    # Fix unnormalize_outputs
-                    if hasattr(model, 'unnormalize_outputs') and hasattr(model.unnormalize_outputs, 'buffer_action'):
-                        buffer = model.unnormalize_outputs.buffer_action
-                        if hasattr(buffer, 'mean') and hasattr(buffer, 'std'):
-                            buffer.mean.data = device_stats["mean"]
-                            buffer.std.data = device_stats["std"]
-                            print(f"  ✅ Fixed unnormalize_outputs for {key}")
-            
-            print("🎉 Dataset statistics fix applied successfully!")
-    except Exception as e:
-        print(f"⚠️  Dataset statistics fix failed: {e}")
-    
     return model
 
 
