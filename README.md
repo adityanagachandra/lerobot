@@ -57,6 +57,10 @@ huggingface-cli login
 # For smolVLA training : 
 pip install -e ".[smolvla]"
 
+# for π0 testing
+pip install -e ".[pi0]"
+
+
 
 ```
 ## 🚀 Training
