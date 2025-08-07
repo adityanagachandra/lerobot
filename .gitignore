@@ -166,6 +166,11 @@ wandb/
 # Data folders
 data/
 outputs/
+local_dataset/
+PP-v1_local/
+PP-v1_act80k_local/
+PP-v1/
+dataset_stats.pt
 
 # Inference logs and debug data
 src/lerobot/inference_logs/
@@ -179,3 +184,8 @@ inference_logs/
 
 # Dev folders
 .cache/*
+
+# Editor/IDE project rules (Cursor, etc.)
+.cursor/
+.cursorignore
+.cursorrules

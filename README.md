@@ -181,6 +181,55 @@ https://github-production-user-asset-6210df.s3.amazonaws.com/4681518/328035972-f
 
 Our script can also visualize datasets stored on a distant server. See `python -m lerobot.scripts.visualize_dataset --help` for more instructions.
 
+## Best uses of this cleaned codebase
+
+- **Structured debug tools**: Find all debug and logging utilities under `src/lerobot/debug_utils/`.
+  - **Apply SmolVLA stats fix and record**: `python -m lerobot.debug_utils.record_with_fixed_stats [your original record args...]`
+  - **Patch once then run record**: `python -m lerobot.debug_utils.patch_record_with_stats --stats_path dataset_stats.pt`
+  - **Analyze inference logs**: `python src/lerobot/debug_utils/analyze_inference_logs.py`
+
+- **Dataset helpers**: Dataset utilities live under `src/lerobot/scripts/datasets/`.
+  - **Compute dataset stats**: `python -m lerobot.scripts.datasets.compute_dataset_stats --dataset_path local_dataset --output_path dataset_stats.pt`
+
+- **Shell wrappers**: Reusable shell launchers are placed in `scripts/`.
+  - `scripts/record_fixed.sh` uses the stats fix wrapper to launch recording.
+  - `scripts/act60k.sh` records with ACT PickPlace model.
+
+- **Clean VCS hygiene**: Datasets, large local artifacts, and editor rules are excluded by `.gitignore` to keep the repo lightweight and safe to push.
+
+### Quick start for fixing SmolVLA normalization
+
+1) Compute stats:
+
+```bash
+python -m lerobot.scripts.datasets.compute_dataset_stats --dataset_path local_dataset --output_path dataset_stats.pt
+```
+
+2) Run record with fix applied:
+
+```bash
+python -m lerobot.debug_utils.record_with_fixed_stats \
+  --robot.type=so100_follower \
+  --robot.id=so100_follow \
+  --robot.port=/dev/tty.usbmodem58FD0171971 \
+  --robot.cameras='{...}' \
+  --display_data=true \
+  --dataset.repo_id=your/repo \
+  --policy.path=lerobot/smolvla_base
+```
+
+## Cleanup changelog (clean branch)
+
+- Moved user debug/record scripts into `src/lerobot/debug_utils/`:
+  - `apply_fix_and_record.py`, `patch_record_with_stats.py`, `record_with_fixed_stats.py`, `record_with_stats.py`, `test_monkey_patch.py`, `test_smolvla_with_stats.py`.
+- Moved dataset helpers to `src/lerobot/scripts/datasets/`:
+  - `compute_dataset_stats.py`, `smolvla_usage_example.py`.
+- Placed shell launchers into `scripts/`:
+  - `record_fixed.sh`, `act60k.sh`.
+- Updated `scripts/record_fixed.sh` to call module entry points and the new stats path command.
+- Updated `.gitignore` to exclude datasets, local artifacts, and Cursor files.
+- Added this README section with best uses and a short log of changes.
+
 ### The `LeRobotDataset` format
 
 A dataset in `LeRobotDataset` format is very simple to use. It can be loaded from a repository on the Hugging Face hub or a local folder simply with e.g. `dataset = LeRobotDataset("lerobot/aloha_static_coffee")` and can be indexed into like any Hugging Face and PyTorch dataset. For instance `dataset[0]` will retrieve a single temporal frame from the dataset containing observation(s) and an action as PyTorch tensors ready to be fed to a model.

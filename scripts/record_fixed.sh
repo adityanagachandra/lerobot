@@ -14,15 +14,15 @@ echo "🚀 Starting LeRobot recording with SmolVLA statistics fix..."
 # Check if dataset statistics exist
 STATS_FILE="dataset_stats.pt"
 if [ ! -f "$STATS_FILE" ]; then
-    echo "❌ Dataset statistics not found: $STATS_FILE"
-    echo "Please run: python compute_dataset_stats.py --dataset_path local_dataset"
+echo "❌ Dataset statistics not found: $STATS_FILE"
+echo "Please run: python -m lerobot.scripts.datasets.compute_dataset_stats --dataset_path local_dataset"
     exit 1
 fi
 
 echo "📊 Found dataset statistics: $STATS_FILE"
 
-# Use the wrapper script with your original command arguments
-python record_with_fixed_stats.py \
+# Use the wrapper module with your original command arguments
+python -m lerobot.debug_utils.record_with_fixed_stats \
   --robot.type=so100_follower \
   --robot.id=so100_follow \
   --robot.port=/dev/tty.usbmodem58FD0171971 \
