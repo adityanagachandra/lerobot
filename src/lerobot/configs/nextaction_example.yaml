@@ -1,0 +1,85 @@
+# NextAction Policy Training Configuration
+# This config demonstrates how to train a NextAction policy that predicts next actions from:
+# - RGB image sequences (n_obs_steps frames)
+# - Touch map sequences (n_obs_steps touch maps)
+# - Past action sequences (n_obs_steps past actions)
+
+seed: 42
+batch_size: 64
+num_workers: 8
+steps: 20000
+log_freq: 100
+save_freq: 1000
+eval_freq: 2000
+save_checkpoint: true
+
+# Output directory for saving models and logs
+output_dir: "outputs/nextaction_training"
+
+# Dataset configuration
+dataset:
+  repo_id: "your_dataset_name"  # Replace with your actual dataset
+  root: "data"
+  episodes: null  # Use all episodes, or specify list like [0, 1, 2, ...]
+  image_transforms:
+    enable: true
+    crop:
+      enable: false
+    grayscale:
+      enable: false
+    resize:
+      enable: true
+      height: 128
+      width: 128
+  
+# Policy configuration
+policy:
+  type: "nextaction"
+  device: "cuda"  # or "cpu"
+  
+  # Observation steps (how many past frames/actions to use)
+  n_obs_steps: 5
+  
+  # Architecture parameters
+  vision_backbone_dim: 256
+  touch_backbone_dim: 128
+  hidden_dim: 512
+  gru_num_layers: 2
+  
+  # CNN architecture
+  vision_cnn_channels: 32
+  touch_cnn_channels: 16
+  
+  # Input dimensions
+  img_size: 128
+  touch_height: 20
+  touch_width: 20
+  
+  # Output and training
+  tanh_output: false
+  dropout: 0.1
+  use_amp: true
+  
+  # Optimization
+  optimizer_lr: 1e-3
+  optimizer_weight_decay: 1e-5
+
+# Optimizer configuration  
+optimizer:
+  type: "adamw"
+  grad_clip_norm: 1.0
+
+# Logging configuration
+wandb:
+  enable: false  # Set to true to use Weights & Biases
+  project: "nextaction_training"
+  notes: "Training NextAction policy with touch and vision"
+  tags: ["nextaction", "touch", "vision"]
+
+# Environment configuration (optional, for evaluation)
+env: null
+
+# Evaluation configuration
+eval:
+  n_episodes: 10
+  batch_size: 4
