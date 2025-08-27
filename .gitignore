@@ -171,6 +171,7 @@ PP-v1_local/
 PP-v1_act80k_local/
 PP-v1/
 dataset_stats.pt
+nextaction_datasets/
 
 # Inference logs and debug data
 src/lerobot/inference_logs/

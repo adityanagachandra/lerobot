@@ -1,0 +1,45 @@
+{
+  "num_episodes": 3,
+  "source_dataset": "/Users/aditya/.cache/huggingface/lerobot/adungus/PP-v1",
+  "camera_key": "observation.images.top",
+  "touch_start_frame": 100,
+  "includes_state": true,
+  "episodes": [
+    {
+      "episode_idx": 0,
+      "num_frames": 459,
+      "action_dim": 12,
+      "touch_shape": [
+        20,
+        20
+      ],
+      "touch_start_frame": 178,
+      "camera_key": "observation.images.top",
+      "includes_state": true
+    },
+    {
+      "episode_idx": 1,
+      "num_frames": 490,
+      "action_dim": 12,
+      "touch_shape": [
+        20,
+        20
+      ],
+      "touch_start_frame": 270,
+      "camera_key": "observation.images.top",
+      "includes_state": true
+    },
+    {
+      "episode_idx": 2,
+      "num_frames": 490,
+      "action_dim": 12,
+      "touch_shape": [
+        20,
+        20
+      ],
+      "touch_start_frame": 312,
+      "camera_key": "observation.images.top",
+      "includes_state": true
+    }
+  ]
+}
